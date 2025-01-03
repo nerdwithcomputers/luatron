@@ -1,6 +1,6 @@
 local love = require "love"
--- local table =  require "table"
-
+local table =  require "table"
+table.unpack = table.unpack or unpack
 
 function tprint(x)
   print('open')
@@ -28,9 +28,12 @@ function cycle:new(o)
 end
 function cycle:move()
   -- print(self.coords[2])
-  local foo = self.coords 
-  self.lastCoords[#(self.lastCoords)+1] = foo
-  tprint(self.lastCoords)
+  -- print('before')
+  -- tprint(self.lastCoords)
+  local foo = {table.unpack(self.coords)}
+  self.lastCoords[#self.lastCoords+1] = foo
+  -- print('after')
+  -- tprint(self.lastCoords)
   -- print(self.lastCoords[#(self.lastCoords)][1])
   if self.facing == 'up' then
     self.coords[2] = self.coords[2]-1
