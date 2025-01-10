@@ -1,35 +1,9 @@
+-- package.path = 'lib/?.lua;lib/?/?.lua;lib/?/init.lua;?.lua;?/init.lua;' .. package.path
+-- love.filesystem.setRequirePath(package.path)
 local love = require "love"
 local table =  require "table"
+local m = require "m"
 table.unpack = table.unpack or unpack
-
-function tprint(x)
-  print('open')
-  for i,j in ipairs(x) do
-    print('[')
-    for c,v in ipairs(j) do
-      print(c, v)
-    end
-    print(']\n')
-  end
-  print('close\n')
-end
-
--- bugger me this is massive
-function contains(tab, val)
-  for _,x in ipairs(tab) do
-    if type(x) == 'table' then
-      if #x == #val then 
-        truth = 0
-        for i,a in ipairs(x) do
-          if val[i] == a then
-            truth = truth+1
-          end
-        end
-        if truth == #x then return true end
-      end
-    end
-  end
-end
 
 cycle = {
   facing = 'up',
@@ -61,7 +35,7 @@ function cycle:move()
     or self.coords[2] >= width
     or self.coords[2] <= 0
   then
-    love.event.quit()
+    m.quit()
   end
 end
 
@@ -111,11 +85,11 @@ function love.update()
   for _,bike in pairs(players) do
     bike:move()
   end
-  if contains(players.red.lastCoords, players.blue.coords) then
-    love.event.quit()
+  if m.contains(players.red.lastCoords, players.blue.coords) then
+    m.quit()
   end
-  if contains(players.blue.lastCoords, players.red.coords) then
-    love.event.quit()
+  if m.contains(players.blue.lastCoords, players.red.coords) then
+    m.quit()
   end
   -- love.graphics.setColor(0,0,1,1)
   -- love.graphics.rectangle('fill', 100, 100, 10, 10)
@@ -123,7 +97,7 @@ end
 
 function love.keypressed(key, scancode, isrepeat)
   if key == 'escape' then
-      love.event.quit()
+      m.quit()
   end
   for _,bike in pairs(players) do
     if key == bike.keys.u and (bike.facing == 'left' or bike.facing == 'right') then
