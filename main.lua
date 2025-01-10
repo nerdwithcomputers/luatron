@@ -14,6 +14,23 @@ function tprint(x)
   print('close\n')
 end
 
+-- bugger me this is massive
+function contains(tab, val)
+  for _,x in ipairs(tab) do
+    if type(x) == 'table' then
+      if #x == #val then 
+        truth = 0
+        for i,a in ipairs(x) do
+          if val[i] == a then
+            truth = truth+1
+          end
+        end
+        if truth == #x then return true end
+      end
+    end
+  end
+end
+
 cycle = {
   facing = 'up',
   color = {},
@@ -27,14 +44,7 @@ function cycle:new(o)
   return o
 end
 function cycle:move()
-  -- print(self.coords[2])
-  -- print('before')
-  -- tprint(self.lastCoords)
   local foo = {table.unpack(self.coords)}
-  self.lastCoords[#self.lastCoords+1] = foo
-  -- print('after')
-  -- tprint(self.lastCoords)
-  -- print(self.lastCoords[#(self.lastCoords)][1])
   if self.facing == 'up' then
     self.coords[2] = self.coords[2]-1
   elseif self.facing == 'down' then
@@ -45,6 +55,7 @@ function cycle:move()
     self.coords[1] = self.coords[1]+1
   end
   -- print(#(self.lastCoords))
+  self.lastCoords[#self.lastCoords+1] = foo
   if self.coords[1] >= width 
     or self.coords[1] <= 0
     or self.coords[2] >= width
@@ -69,8 +80,7 @@ function love.load()
         l='j',
         r='l'
       }
-    }
-    --[[
+    },
     blue = cycle:new{
       color={0, 1, 0.5, 1},
       coords={width/2, height/2},
@@ -81,7 +91,6 @@ function love.load()
         r='d'
       }
     }
-    --]]
   }
 end
 
@@ -89,12 +98,9 @@ function love.draw()
   for _,bike in pairs(players) do
     love.graphics.setColor(bike.color[1],bike.color[2],bike.color[3],bike.color[4])
     love.graphics.rectangle('fill', bike.coords[1], bike.coords[2], 10,10)
-
-    -- print(#(bike.lastCoords))
     -- --[[
     for i in ipairs(bike.lastCoords) do
-      -- print(i)
-      love.graphics.setColor(0,1,0,1)
+      love.graphics.setColor(bike.color[1],bike.color[2],bike.color[3],bike.color[4])
       love.graphics.rectangle('fill', bike.lastCoords[i][1], bike.lastCoords[i][2], 5,5)
     end
     --]]
@@ -104,6 +110,12 @@ end
 function love.update()
   for _,bike in pairs(players) do
     bike:move()
+  end
+  if contains(players.red.lastCoords, players.blue.coords) then
+    love.event.quit()
+  end
+  if contains(players.blue.lastCoords, players.red.coords) then
+    love.event.quit()
   end
   -- love.graphics.setColor(0,0,1,1)
   -- love.graphics.rectangle('fill', 100, 100, 10, 10)
