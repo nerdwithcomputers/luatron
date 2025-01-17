@@ -5,6 +5,8 @@ local table =  require "table"
 local m = require "m"
 table.unpack = table.unpack or unpack
 
+arena = love.graphics.newCanvas(800, 600)
+
 cycle = {
   facing = 'up',
   color = {},
@@ -69,16 +71,29 @@ function love.load()
 end
 
 function love.draw()
+  love.graphics.setCanvas(arena)
+  arena:clear()
   for _,bike in pairs(players) do
-    love.graphics.setColor(bike.color[1],bike.color[2],bike.color[3],bike.color[4])
+    love.graphics.setColor(
+      bike.color[1],
+      bike.color[2],
+      bike.color[3],
+      bike.color[4]
+    )
     love.graphics.rectangle('fill', bike.coords[1], bike.coords[2], 10,10)
-    -- --[[
     for i in ipairs(bike.lastCoords) do
-      love.graphics.setColor(bike.color[1],bike.color[2],bike.color[3],bike.color[4])
+      love.graphics.setColor(
+        bike.color[1],
+        bike.color[2],
+        bike.color[3],
+        bike.color[4]
+      )
       love.graphics.rectangle('fill', bike.lastCoords[i][1], bike.lastCoords[i][2], 5,5)
     end
-    --]]
+    love.graphics.setCanvas()
+    love.graphics.draw(arena, 0,0, 0)
   end
+
 end
 
 function love.update()
