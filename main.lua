@@ -2,23 +2,19 @@
 -- love.filesystem.setRequirePath(package.path)
 local love = require "love"
 local table =  require "table"
-local m = require "m"
+local base = require "lib.knife.base"
+local m = require "lib.m"
 table.unpack = table.unpack or unpack
 
 arena = love.graphics.newCanvas(800, 600)
 
-cycle = {
+cycle = base:extend({
   facing = 'up',
   color = {},
   coords = {},
   lastCoords = {}
-}
-function cycle:new(o)
-  o = o or {}
-  setmetatable(o,self)
-  self.__index = self
-  return o
-end
+})
+
 function cycle:move()
   local foo = {table.unpack(self.coords)}
   if self.facing == 'up' then
@@ -47,7 +43,7 @@ function love.load()
   -- of course my first idea is to implement a class in a lang that doesn't BLOODY HAVE CLASSES
 
   players = {
-    red = cycle:new{
+    red = cycle:constructor{
       color={1, 0, 0.5, 1},
       coords={100,100},
       keys={
@@ -57,7 +53,7 @@ function love.load()
         r='l'
       }
     },
-    blue = cycle:new{
+    blue = cycle:constructor{
       color={0, 1, 0.5, 1},
       coords={width/2, height/2},
       keys={
