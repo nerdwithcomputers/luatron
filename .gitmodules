@@ -1,0 +1,3 @@
+[submodule "lib/knife"]
+	path = lib/knife
+	url = http://github.com/airstruck/knife/
