@@ -72,7 +72,7 @@ end
 
 function love.draw()
   love.graphics.setCanvas(arena)
-  Canvas.clear()
+  arena:clear()
   for _,bike in pairs(players) do
     love.graphics.setColor(
       bike.color[1],
