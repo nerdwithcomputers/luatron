@@ -10,10 +10,16 @@ arena = love.graphics.newCanvas(800, 600)
 
 cycle = base:extend({
   facing = 'up',
-  color = {},
-  coords = {},
   lastCoords = {}
 })
+
+function cycle:constructor(color, coords, keys) 
+  self.facing = 'up'
+  self.color = color
+  self.coords = coords
+  self.lastCoords = {}
+  self.keys = keys
+end
 
 function cycle:move()
   local foo = {table.unpack(self.coords)}
@@ -41,9 +47,8 @@ function love.load()
   height = love.graphics.getHeight()
   width = love.graphics.getWidth()
   -- of course my first idea is to implement a class in a lang that doesn't BLOODY HAVE CLASSES
-
   players = {
-    red = cycle:constructor{
+    red = cycle:constructor(
       color={1, 0, 0.5, 1},
       coords={100,100},
       keys={
@@ -52,8 +57,8 @@ function love.load()
         l='j',
         r='l'
       }
-    },
-    blue = cycle:constructor{
+    ),
+    blue = cycle:constructor(
       color={0, 1, 0.5, 1},
       coords={width/2, height/2},
       keys={
@@ -62,7 +67,7 @@ function love.load()
         l='a',
         r='d'
       }
-    }
+    )
   }
 end
 
