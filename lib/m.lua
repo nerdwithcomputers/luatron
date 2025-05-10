@@ -19,8 +19,8 @@ end
 
 -- bugger me this is massive
 -- AND ITS NOT EVEN EXHAUSTIVE
-function m.contains(tab, val)
-  for _,x in ipairs(tab) do
+function m.contains(table, val)
+  for _,x in ipairs(table) do
     if type(x) == 'table' then
       if #x == #val then 
         truth = 0
