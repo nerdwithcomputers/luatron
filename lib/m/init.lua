@@ -1,5 +1,8 @@
 local love = require "love"
+local path = ...
 local m = {}
+
+-- m.elements = require(path..".elements")
 
 function m.quit()
   love.event.quit()

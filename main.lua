@@ -95,7 +95,7 @@ function love.load()
 		    love.graphics.rectangle('fill', 0, 0, view.w, view.h)
 		    love.graphics.setColor(1, 1, 1)
         -- txt, x,y, r, sx,sy, ox,oy, kx,ky
-		    love.graphics.print(param.text, 0,0, 0, 1,1, -1*love.graphics.getFont():getWidth(param.text)/2)
+		    love.graphics.print(param.text, view.w/2,0, 0, 1,1, love.graphics.getFont():getWidth(param.text)/2)
       love.graphics.setFont(defaultFont)
     end
   end)
@@ -118,7 +118,8 @@ function love.load()
   start=button(
     {
       func=(function()
-        print('start')
+        menu:deactivate()
+        gamestate='game'
       end),
       color={0,1,0},
       text='start'
